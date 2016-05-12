@@ -1,0 +1,72 @@
+version: '2'
+services:
+  # The main proxy container, receives data and publishes to local RabbitMQ container
+  proxy:
+    image: ironsource/ironbeast-proxy:kinesis # replace with ${ENV} when code is in dev
+    restart: always
+    ports:
+      - "80:8000"
+    environment:
+      ENV: ${ENV}
+      REGION: ${REGION}
+      USAGE_API_URL: https://usage-integration.atom-data.io # will be changed later
+    links:
+      - rabbit
+    volumes:
+      - ironbeast:/var/log/ironbeast
+    container_name: proxy
+
+  # Producer container, consumes data from local RabbitMQ container and sends it to Kinesis.
+  producer:
+    image: ironsource/ironbeast-producer:${DOCKER_TAG}
+    restart: always
+    environment:
+      ENV: ${ENV}
+    links:
+      - rabbit
+    volumes:
+        - ironbeast:/var/log/ironbeast
+    container_name: producer
+
+  # Atom logger for raw logs, consumes raw data from RabbitMQ and publishes to S3
+  logger:
+    image: ironsource/ironbeast-logger:${DOCKER_TAG}
+    restart: always
+    environment:
+      ENV: ${ENV}
+      REGION: ${REGION}
+      INSTANCE_ID: ${INSTANCE_ID}
+    links:
+      - rabbit
+    volumes:
+      - ironbeast:/var/log/ironbeast
+    container_name: logger
+
+  # Local RabbitMQ container
+  rabbit:
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    container_name: rabbit
+    volumes:
+      # mount the rabbit volume from host disk
+      - /home/ubuntu/rabbitdisk:/var/lib/rabbitmq/mnesia
+      - rabbit:/var/log/rabbitmq
+
+  # Logstash Container
+  logstash:
+    image: logstash:2.3
+    command: bash -c "logstash -f /etc/logstash/conf.d/logstash.conf"
+    enviornment:
+      ENV: ${ENV}
+    volumes:
+      - ironbeast:/var/log/ironbeast
+      - rabbit:/var/log/rabbitmq
+      - /home/ubuntu/logstash/logstash.conf:/etc/logstash/conf.d/logstash.conf # logstash config file form  host
+    container_name: logstash
+
+volumes:
+  ironbeast: {}
+  rabbit: {}

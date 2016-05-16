@@ -3,5 +3,5 @@ services:
   # Logstash Container
   logstash:
     image: logstash
-    command: bash -c "logstash -f logstash.conf"
-    container_name: logstash
+    command: bash -c "logstash -f /etc/logstash/conf.d/logstash.conf"
+    container_name: logstash-atom

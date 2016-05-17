@@ -1,7 +1,6 @@
 # Using ironSource.atom with logstash and Docker
-[![License][license-image]][license-url]
-[![Coverage Status][coveralls-image]][coveralls-url]
-[![Build status][travis-image]][travis-url]
+[![License][license-image]]
+
 
 
 ### Using ironSource.atom with logstash

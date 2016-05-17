@@ -4,4 +4,7 @@ services:
   logstash:
     image: logstash
     command: bash -c "logstash -f /etc/logstash/conf.d/logstash.conf"
+    volumes: 
+    - /Users/kirill.bokhanov/workspace/logstash-atom/logstash_dock.conf:/etc/logstash/conf.d/logstash.conf
+    - /Users/kirill.bokhanov/workspace/logstash-atom/file.txt:/etc/logstash/file.txt
     container_name: logstash-atom

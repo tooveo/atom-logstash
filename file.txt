@@ -1,1 +1,10 @@
-"{"message": "iron" }" 
+{"id":"myUniqueId","message":"new message 0","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message 1","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message 2","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message 3","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message 4","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message 5","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message 6","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message 7","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message 8","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message 9","bool_value":true,"float_value":2.3}

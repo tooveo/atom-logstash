@@ -37,7 +37,7 @@ cd <path to you directory>
 ```
 __Run logstash__
 ```bash
-logstash -f log stash.conf
+logstash -f logstash.conf
 ```
 
 

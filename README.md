@@ -1,14 +1,6 @@
-# Using ironSource.atom with logstash and Docker
-[![License][license-image]]
-
-
-
 ### Using ironSource.atom with logstash
 
-#### Tracking events
-__Confuguring logstash__
-1. Create file logstash.conf with following configurations:
-
+__Create file logstash.conf with following configurations:__
 ```html
 input {
     file {
@@ -34,22 +26,24 @@ output {
 
 }
 ```
-You should configure your logstash to produce  each %{message} as JSON object or array of JSON objects. Each object has to represent your data structure the same as you have in your atom table.
+* You should configure your logstash to produce  each %{message} as JSON object or array of JSON objects. 
+* Each object has to represent your data structure the same as you have in your atom table.
 
-2. Copy your logstash.conf into working directory.
-3. Go to working directory.
+__Copy your logstash.conf into working directory.__
+
+__Go to working directory.__
 ```bash
 cd <path to you directory>
 ```
-4. Run logstash
+__Run logstash__
 ```bash
 logstash -f log stash.conf
 ```
 
 
-Connect to ironSource Atom with Logstash using docker-compose
+### Connect to ironSource Atom with Logstash using docker-compose
 
-1. Create file logstash.conf with following configurations:
+__Create file logstash.conf with following configurations:__
 ```html
 input {
     file {
@@ -75,9 +69,10 @@ output {
 
 }
 ```
-You should configure your logstash to produce  each %{message} as JSON object or array of JSON objects. Each object has to represent your data structure the same as you have in your atom table.
+* You should configure your logstash to produce  each %{message} as JSON object or array of JSON objects. 
+* Each object has to represent your data structure the same as you have in your atom table.
 
-2. Create docker-compose.yaml with the following content:
+__Create docker-compose.yaml with the following content:__
 ```html
 version: '2'
 services:
@@ -89,18 +84,13 @@ services:
     - < absolute path to file with your input data >:/etc/logstash/file.txt
     container_name: logstash-atom
 ```
-3. Put you docker-compose.yaml into your working directory.
-4. Go to working directory.
+__Put you docker-compose.yaml into your working directory__
+
+__Go to working directory:__
 ```bash
 cd <path to you directory>
 ```
-5. Run docker-compose
+__Run docker-compose:__
 ```bash
 docker-compose up -d
 ```
-
-
-### License
-MIT
-
-[license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square

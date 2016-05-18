@@ -4,7 +4,7 @@ __Create file logstash.conf with following configurations:__
 ```html
 input {
     file {
-        path => "< absolute path to file with your input data >"
+        path => "<absolute path to file with your input data>"
     }
 }
 
@@ -80,7 +80,7 @@ services:
     command: bash -c "logstash -f /etc/logstash/conf.d/logstash.conf"
     volumes: 
     - <absolute path to your log stash.conf file on your server>:/etc/logstash/conf.d/logstash.conf
-    - < absolute path to file with your input data >:/etc/logstash/<the name of your file>
+    - <absolute path to file with your input data>:/etc/logstash/<the name of your file>
     container_name: logstash-atom
 ```
 __Put your docker-compose.yaml into the working directory__
@@ -91,5 +91,5 @@ cd <path to you directory>
 ```
 __Run docker-compose:__
 ```bash
-docker-compose up -d
+ENV=<path to your your working directory> docker-compose up -d
 ```

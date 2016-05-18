@@ -16,9 +16,8 @@ output {
         http_method => "post"
         format => "json"
         mapping => {
-            "table" => "< name of your table in atom cluster>"
+            "table" => "${STREAM}"
             "data" => "%{message}"
-            "auth" => "<THE SHA256 of the data using a pre-shared key>"
         }
         workers => 5
         ssl_certificate_validation => false
@@ -37,7 +36,8 @@ cd <path to you directory>
 ```
 __Run logstash__
 ```bash
-logstash -f logstash.conf
+STREAM=<the name of your table in atom cluster> ENV=<path to your your working directory> logstash --allow-env -f logstash.conf
+
 ```
 
 
@@ -47,7 +47,7 @@ __Create file logstash.conf with following configurations:__
 ```html
 input {
     file {
-        path => "</etc/logstash/file.txt>"
+        path => "/etc/logstash/<the name of your file>"
     }
 }
 
@@ -59,9 +59,8 @@ output {
         http_method => "post"
         format => "json"
         mapping => {
-            "table" => "< name of your table in atom cluster>"
+            "table" => "${STREAM}"
             "data" => "%{message}"
-            "auth" => "<THE SHA256 of the data using a pre-shared key>"
         }
         workers => 5
         ssl_certificate_validation => false
@@ -81,7 +80,7 @@ services:
     command: bash -c "logstash -f /etc/logstash/conf.d/logstash.conf"
     volumes: 
     - <absolute path to your log stash.conf file on your server>:/etc/logstash/conf.d/logstash.conf
-    - < absolute path to file with your input data >:/etc/logstash/file.txt
+    - < absolute path to file with your input data >:/etc/logstash/<the name of your file>
     container_name: logstash-atom
 ```
 __Put your docker-compose.yaml into the working directory__

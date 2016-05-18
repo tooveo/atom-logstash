@@ -29,7 +29,7 @@ output {
 * You should configure your logstash to produce  each %{message} as JSON object or array of JSON objects. 
 * Each object has to represent your data structure the same as you have in your atom table.
 
-__Copy your logstash.conf into working directory.__
+__Copy your logstash.conf into the working directory.__
 
 __Go to working directory.__
 ```bash
@@ -84,7 +84,7 @@ services:
     - < absolute path to file with your input data >:/etc/logstash/file.txt
     container_name: logstash-atom
 ```
-__Put you docker-compose.yaml into your working directory__
+__Put your docker-compose.yaml into the working directory__
 
 __Go to working directory:__
 ```bash

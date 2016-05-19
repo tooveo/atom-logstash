@@ -1,23 +1,36 @@
-### Using ironSource.atom with logstash
+### Send an event to ironSource.Atom using Logstash
 
-__Create file logstash.conf with following configurations:__
+__1. Create a file named logstash.conf with following configuration:__
 ```html
+# An input plugin enables a specific source of events to be read by Logstash.
 input {
+
+    # this example contains <file> as input, but logstash supports more:
+    # https://www.elastic.co/guide/en/logstash/current/input-plugins.html
+
     file {
-        path => "<absolute path to file with your input data>"
+        # default codec is plain, for different codecs, read this:
+        # https://www.elastic.co/guide/en/logstash/current/codec-plugins.html
+        
+        # path can be an array or string and can contain asterisk, like this:
+        path => [ "/var/log/log-from-host/", "/var/log/*.log" ]
+        path => "/data/mysql/mysql.log"
     }
 }
 
-filter{}
-
+# output plugin
 output {
     http {
         url => "http://track.atom-data.io/"
+        headers => {
+            "x-ironsource-atom-sdk-type" => "logstash"
+            "x-ironsource-atom-sdk-version" => "${SDK_VERSION:1.0.0}"
+        }
         http_method => "post"
         format => "json"
         mapping => {
-            "table" => "${STREAM}"
-            "data" => "%{message}"
+            "table" => "${STREAM}" # STREAM var is passed by the docker ENV
+            "data" => "%{message}" # The msg that will be sent
         }
         workers => 5
         ssl_certificate_validation => false
@@ -25,75 +38,41 @@ output {
 
 }
 ```
-* You should configure your logstash to produce  each %{message} as JSON object or array of JSON objects. 
-* Each object has to represent your data structure the same as you have in your atom table.
 
-__Copy your logstash.conf into the working directory.__
-
-__Go to working directory.__
+__2. Run logstash__
 ```bash
-cd <path to you directory>
-```
-__Run logstash__
-```bash
-STREAM=<the name of your table in atom cluster> logstash --allow-env -f logstash.conf
-
+STREAM=<the name of your stream> logstash --allow-env -f logstash.conf
 ```
 
+### Send events to ironSource.Atom using Logstash docker container & docker-compose
 
-### Connect to ironSource Atom with Logstash using docker-compose
-
-__Create file logstash.conf with following configurations:__
-```html
-input {
-    file {
-        path => "/etc/logstash/<the name of your file>"
-    }
-}
-
-filter{}
-
-output {
-    http {
-        url => "http://track.atom-data.io/"
-        http_method => "post"
-        format => "json"
-        mapping => {
-            "table" => "${STREAM}"
-            "data" => "%{message}"
-        }
-        workers => 5
-        ssl_certificate_validation => false
-    }
-
-}
-```
-* You should configure your logstash to produce  each %{message} as JSON object or array of JSON objects. 
-* Each object has to represent your data structure the same as you have in your atom table.
-
-__Create docker-compose.yaml with the following content:__
-```html
+__1. Create docker-compose.yaml with the following content:__
+```yaml
 version: '2'
 services:
   logstash:
     image: logstash:2.3
     command: bash -c "logstash --allow-env -f /etc/logstash/conf.d/logstash.conf"
     environment:
-     STREAM: ${STREAM}
-    volumes: 
-    - <absolute path to your log stash.conf file on your server>:/etc/logstash/conf.d/logstash.conf
-    - <absolute path to file with your input data>:/etc/logstash/file.txt
-    container_name: logstash-atom
-volumes:
-   atom: {}
-```
-__Put your docker-compose.yaml into the working directory__
+     STREAM: ${STREAM} # Your Atom Stream
+     SDK_VERSION: 1.0.0
+    volumes:
+    ### Specify the logstash.conf file path on your host ###
+    - <path to your logstash.conf file on your host>:/etc/logstash/conf.d/logstash.conf
 
-__Go to working directory:__
-```bash
-cd <path to you directory>
+    ### Specify the path of the files that you want logstash to use, can have multiple paths ###
+    - /var/log/app-logs:/var/log/log-from-host
+    # For more options: https://docs.docker.com/compose/compose-file/#volumes-volume-driver
+    
+    container_name: logstash-atom
 ```
-__Run docker-compose:__
+
+__2. Run docker-compose:__
 ```bash
-STREAM=<the name of your table in atom cluster> docker-compose up -d
+STREAM=<the name of your stream> docker-compose up (-d for detached)
+
+OR
+
+export STREAM=<the name of your stream>
+docker-compose up -d
 ```

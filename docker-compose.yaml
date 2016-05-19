@@ -4,10 +4,13 @@ services:
     image: logstash:2.3
     command: bash -c "logstash --allow-env -f /etc/logstash/conf.d/logstash.conf"
     environment:
-     STREAM: ${STREAM}
-    volumes: 
-    - <absolute path to your log stash.conf file on your server>:/etc/logstash/conf.d/logstash.conf
-    - <absolute path to file with your input data>:/etc/logstash/file.txt
+     STREAM: ${STREAM} # Your Atom Stream
+     SDK_VERSION: 1.0.0
+    volumes:
+    ### Specify the logstash.conf file path on your host ###
+    - <path to your logstash.conf file on your host>:/etc/logstash/conf.d/logstash.conf
+
+    ### Specify the path of the files that you want logstash to use, can have multiple paths ###
+    - /var/log/app-logs:/var/log/log-from-host
+    # For more options: https://docs.docker.com/compose/compose-file/#volumes-volume-driver
     container_name: logstash-atom
-volumes:
-   atom: {}

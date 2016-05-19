@@ -36,7 +36,7 @@ cd <path to you directory>
 ```
 __Run logstash__
 ```bash
-STREAM=<the name of your table in atom cluster> ENV=<path to your your working directory> logstash --allow-env -f logstash.conf
+STREAM=<the name of your table in atom cluster> logstash --allow-env -f logstash.conf
 
 ```
 
@@ -76,12 +76,16 @@ __Create docker-compose.yaml with the following content:__
 version: '2'
 services:
   logstash:
-    image: logstash 2.3
-    command: bash -c "logstash -f /etc/logstash/conf.d/logstash.conf"
+    image: logstash:2.3
+    command: bash -c "logstash --allow-env -f /etc/logstash/conf.d/logstash.conf"
+    environment:
+     STREAM: ${STREAM}
     volumes: 
     - <absolute path to your log stash.conf file on your server>:/etc/logstash/conf.d/logstash.conf
-    - <absolute path to file with your input data>:/etc/logstash/<the name of your file>
+    - <absolute path to file with your input data>:/etc/logstash/file.txt
     container_name: logstash-atom
+volumes:
+   atom: {}
 ```
 __Put your docker-compose.yaml into the working directory__
 
@@ -91,5 +95,5 @@ cd <path to you directory>
 ```
 __Run docker-compose:__
 ```bash
-ENV=<path to your your working directory> docker-compose up -d
+STREAM=<the name of your table in atom cluster> docker-compose up -d
 ```

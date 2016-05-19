@@ -1,9 +1,13 @@
 version: '2'
 services:
   logstash:
-    image: logstash
-    command: bash -c "STREAM=<the name of your table in atom cluster> logstash --allow-env -f /etc/logstash/conf.d/logstash.conf"
+    image: logstash:2.3
+    command: bash -c "logstash --allow-env -f /etc/logstash/conf.d/logstash.conf"
+    environment:
+     STREAM: ${STREAM}
     volumes: 
-    - ${ENV}/logstash_dock.conf:/etc/logstash/conf.d/logstash.conf
-    - ${ENV}/file.txt:/etc/logstash/file.txt
+    - <absolute path to your log stash.conf file on your server>:/etc/logstash/conf.d/logstash.conf
+    - <absolute path to file with your input data>:/etc/logstash/file.txt
     container_name: logstash-atom
+volumes:
+   atom: {}

@@ -4,9 +4,7 @@
 atom-logstash the way to connect Logstash with [ironSource.atom](http://www.ironsrc.com/data-flow-management) standing alone and with docker container.
 
 - [Signup](https://atom.ironsrc.com/#/signup)
-- [Documentation](https://ironsource.github.io/atom-logstash/)
-- [Send an event to ironSource.Atom using Logstash](#Send an event to ironSource.Atom using Logstash)
-- [Send events to ironSource.Atom using Logstash docker container & docker-compose](#Send events to ironSource.Atom using Logstash docker container & docker-compose)
+- [Documentation](https://github.com/ironSource/atom-logstash)
 
 ### Send an event to ironSource.Atom using Logstash
 

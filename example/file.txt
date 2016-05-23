@@ -1,10 +1,10 @@
-{"id":"myUniqueId","message":"new message 0","bool_value":true,"float_value":2.3}
-{"id":"myUniqueId","message":"new message 1","bool_value":true,"float_value":2.3}
-{"id":"myUniqueId","message":"new message 2","bool_value":true,"float_value":2.3}
-{"id":"myUniqueId","message":"new message 3","bool_value":true,"float_value":2.3}
-{"id":"myUniqueId","message":"new message 4","bool_value":true,"float_value":2.3}
-{"id":"myUniqueId","message":"new message 5","bool_value":true,"float_value":2.3}
-{"id":"myUniqueId","message":"new message 6","bool_value":true,"float_value":2.3}
-{"id":"myUniqueId","message":"new message 7","bool_value":true,"float_value":2.3}
-{"id":"myUniqueId","message":"new message 8","bool_value":true,"float_value":2.3}
-{"id":"myUniqueId","message":"new message 9","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message0","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message1","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message2","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message3","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message4","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message5","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message6","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message7","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message8","bool_value":true,"float_value":2.3}
+{"id":"myUniqueId","message":"new message9","bool_value":true,"float_value":2.3}

@@ -5,6 +5,7 @@ services:
     command: bash -c "logstash --allow-env -f /etc/logstash/conf.d/logstash.conf"
     environment:
      STREAM: ${STREAM} # Your Atom Stream
+     AUTH: ${AUTH} # Your pre-shared key to Atom Stream
      SDK_VERSION: 1.0.0
     volumes:
     ### Specify the logstash.conf file path on your host ###

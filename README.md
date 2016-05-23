@@ -11,12 +11,20 @@ input {
     file {
         # default codec is plain, for different codecs, read this:
         # https://www.elastic.co/guide/en/logstash/current/codec-plugins.html
-        
+
         # path can be an array or string and can contain asterisk, like this:
         path => [ "/var/log/log-from-host/", "/var/log/*.log" ]
         path => "/data/mysql/mysql.log"
     }
 }
+# filter plugin
+filter {  
+    fingerprint {
+    key => "${AUTH}" #pre-shared auth key from your Atom stream
+    method => "SHA256" 
+
+    }
+  }
 
 # output plugin
 output {
@@ -29,8 +37,9 @@ output {
         http_method => "post"
         format => "json"
         mapping => {
-            "table" => "${STREAM}" # STREAM var is passed by the docker ENV
-            "data" => "%{message}" # The msg that will be sent
+            "table" => "${STREAM}"
+            "data" => "%{message}"
+            "auth" => "%{fingerprint}"
         }
         workers => 5
         ssl_certificate_validation => false
@@ -41,7 +50,7 @@ output {
 
 __2. Run logstash__
 ```bash
-STREAM=<the name of your stream> logstash --allow-env -f logstash.conf
+STREAM=<the name of your stream> AUTH=<your pre shared auth key> logstash --allow-env -f logstash.conf
 ```
 
 ### Send events to ironSource.Atom using Logstash docker container & docker-compose
@@ -55,6 +64,7 @@ services:
     command: bash -c "logstash --allow-env -f /etc/logstash/conf.d/logstash.conf"
     environment:
      STREAM: ${STREAM} # Your Atom Stream
+     AUTH: ${AUTH} # Your pre-shared key to Atom Stream
      SDK_VERSION: 1.0.0
     volumes:
     ### Specify the logstash.conf file path on your host ###
@@ -69,10 +79,11 @@ services:
 
 __2. Run docker-compose:__
 ```bash
-STREAM=<the name of your stream> docker-compose up (-d for detached)
+STREAM=<the name of your stream> AUTH=<your pre shared auth key> docker-compose up (-d for detached)
 
 OR
 
 export STREAM=<the name of your stream>
+export AUTH=<your pre shared auth key> 
 docker-compose up -d
 ```

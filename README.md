@@ -1,3 +1,12 @@
+# Using ironSource.atom with Logstash & Docker
+[![License][license-image]][license-url]
+atom-logstash the way to connect Logstash with [ironSource.atom](http://www.ironsrc.com/data-flow-management) standing alone and with docker container.
+
+- [Signup](https://atom.ironsrc.com/#/signup)
+- [Documentation](https://ironsource.github.io/atom-logstash/)
+- [Send an event to ironSource.Atom using Logstash](#Send an event to ironSource.Atom using Logstash)
+- [Send events to ironSource.Atom using Logstash docker container & docker-compose](#Send events to ironSource.Atom using Logstash docker container & docker-compose)
+
 ### Send an event to ironSource.Atom using Logstash
 
 __1. Create a file named logstash.conf with following configuration:__
@@ -76,3 +85,13 @@ OR
 export STREAM=<the name of your stream>
 docker-compose up -d
 ```
+### Example
+
+You can use our [example][example-url] for sending data to Atom.
+
+### License
+MIT
+
+[license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
+[license-url]: LICENSE
+[example-url]: https://github.com/ironSource/atom-logstash/tree/master/example
